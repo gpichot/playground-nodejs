@@ -5,9 +5,12 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev:compile": "tsc --watch --preserveWatchOutput --esModuleInterop",
     "dev:serve": "nodemon dist/index.js",
+    "format": "prettier --write 'src/**/*.{ts,js,mjs,cjs,json,md}'",
+    "lint": "eslint src/**/*.{ts,js,mjs,cjs,json}",
+    "lint:fix": "eslint src/**/*.{ts,js,mjs,cjs,json} --fix",
     "dev": "npm-run-all -l -p dev:*"
   },
   "author": "",
