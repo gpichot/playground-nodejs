@@ -1,9 +1,12 @@
+import "dotenv/config";
 import { app } from "./app";
 import { initWebsocket } from "./websocket";
 
-const httpServer = app.listen(process.env.PORT, () => {
+const PORT = process.env.PORT || 8123;
+
+const httpServer = app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server ready http://localhost:${process.env.PORT}`);
+  console.log(`Server ready http://localhost:${PORT}`);
 });
 
 export default httpServer;

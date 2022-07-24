@@ -1,18 +1,40 @@
 import express, { NextFunction, Request, Response } from "express";
 import type { Handler } from "express";
 import bodyParser from "body-parser";
-// import cors from "cors";
+import cors from "cors";
 import { fibonacci } from "./fibo";
 import { z } from "zod";
 import { validateRequestParams } from "zod-express-middleware";
 
+import authRouter from "./authentication/routes";
+import chatRouter from "./chat/routes";
+import passport from "./authentication/index";
+import session from "./session";
+
+const CLIENT_URL = process.env.CLIENT_URL ?? "http://localhost:3000";
+
 export const app = express();
 
+app.use(
+  cors({
+    origin: CLIENT_URL,
+    credentials: true,
+  })
+);
+
+app.use(session);
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 const log: Handler = (req, res, next) => {
   // eslint-disable-next-line no-console
-  console.log(new Date(), req.method, req.url);
+  const user = (req.session as any).passport?.user;
+  if (user) {
+    console.log(`[${user}]`, new Date(), req.method, req.url);
+  } else {
+    console.log(new Date(), req.method, req.url);
+  }
   // Call next or chain is broken!
   next();
 };
@@ -35,6 +57,9 @@ app.get(
     res.send(fibonacci(n).toString());
   }
 );
+
+app.use("/", authRouter);
+app.use("/messages", chatRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
