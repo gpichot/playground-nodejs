@@ -12,6 +12,25 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          // Packages. `react` related packages come first.
+          ["^react", "^@?\\w"],
+          // Absolute imports and other imports such as Vue-style `@/foo`.
+          // Anything that does not start with a dot.
+          ["^[^.@]"],
+          // ["^@myorganization"],
+          ["^@"],
+          ["^\\x00?[^.].*\\.css$"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          ["\\.s?css$"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error"
   }
 }
