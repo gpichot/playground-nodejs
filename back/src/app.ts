@@ -59,7 +59,7 @@ app.get(
 );
 
 app.use("/", authRouter);
-app.use("/messages", chatRouter);
+app.use("/chat", chatRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
