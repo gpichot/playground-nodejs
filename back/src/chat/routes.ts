@@ -1,29 +1,25 @@
 import express from "express";
-import { bus } from "@/bus";
 import * as uuid from "uuid";
+
+import { bus } from "@/bus";
+import db from "@/database";
 
 const router = express.Router();
 
-const messages = [
-  {
-    id: "1",
-    username: "user1",
-    text: "Hello",
-    sendAt: "2022-01-01T00:00:00.000Z",
-  },
-  {
-    id: "2",
-    username: "user2",
-    text: "World",
-    sendAt: "2022-01-01T00:02:00.000Z",
-  },
-  { id: "3", username: "user3", text: "!", sendAt: "2022-01-01T00:03:00.000Z" },
-];
+router.get("/rooms", async (req, res) => {
+  const rooms = await db.collection("rooms").find({}).toArray();
 
-router.get("/:room", (req, res) => {
+  return res.json(rooms);
+});
+
+router.get("/:room", async (req, res) => {
+  const messages = await db
+    .collection("messages")
+    .find({ room: req.params.room })
+    .toArray();
   return res.json(messages);
 });
-router.post("/:room", (req, res) => {
+router.post("/:room", async (req, res) => {
   const body = req.body;
   const username = (req.user as any)?.username ?? "anonymous";
   const message = {
@@ -31,8 +27,16 @@ router.post("/:room", (req, res) => {
     username,
     text: body.text,
     sendAt: new Date().toISOString(),
+    room: req.params.room,
   };
-  messages.push(message);
+
+  await db.collection("messages").insertOne(message);
+
+  const messages = await db
+    .collection("messages")
+    .find({ room: req.params.room })
+    .toArray();
+
   bus.emit("newMessage", message);
   return res.json(messages);
 });

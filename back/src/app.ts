@@ -1,14 +1,14 @@
-import express, { NextFunction, Request, Response } from "express";
-import type { Handler } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { fibonacci } from "./fibo";
+import type { Handler } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import { validateRequestParams } from "zod-express-middleware";
 
+import passport from "./authentication/index";
 import authRouter from "./authentication/routes";
 import chatRouter from "./chat/routes";
-import passport from "./authentication/index";
+import { fibonacci } from "./fibo";
 import session from "./session";
 
 const CLIENT_URL = process.env.CLIENT_URL ?? "http://localhost:3000";

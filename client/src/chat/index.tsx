@@ -1,4 +1,5 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { fetchApiMessages, postApiMessage } from "src/interface";
 import { useWebsocket } from "src/websocket";
 type Message = {
@@ -8,11 +9,13 @@ type Message = {
 };
 
 export function RoomPage() {
-  const { data: messages, refetch } = useMessageList("main");
+  const [searchParams] = useSearchParams();
+  const roomId = searchParams.get("room");
+  const { data: messages, refetch } = useMessageList(roomId || "main");
   return (
     <>
       <MessageList messages={messages} />
-      <MessageForm room="main" onSubmit={refetch} />
+      <MessageForm room={roomId || "main"} onSubmit={refetch} />
     </>
   );
 }
@@ -95,7 +98,6 @@ function MessageForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(text);
     mutation.addMessage(text).then(() => {
       setText("");
       onSubmit();

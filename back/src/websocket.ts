@@ -1,11 +1,12 @@
-import io from "socket.io";
-import { bus } from "./bus";
+import { NextFunction, Request, Response } from "express";
 import type { Server } from "http";
-import { Request, Response, NextFunction } from "express";
+import io from "socket.io";
 
+import { bus } from "./bus";
 import sessionMiddleware from "./session";
 
 const CLIENT_URL = process.env.CLIENT_URL ?? "http://localhost:3000";
+console.log(CLIENT_URL);
 
 export function initWebsocket(httpServer: Server) {
   const server = new io.Server(httpServer, {

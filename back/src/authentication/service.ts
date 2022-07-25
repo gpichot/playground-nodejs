@@ -1,6 +1,7 @@
-import * as z from "zod";
-import db from "@/database";
 import crypto from "crypto";
+import * as z from "zod";
+
+import db from "@/database";
 
 export const SignUpSchema = z.object({
   username: z.string().min(4),

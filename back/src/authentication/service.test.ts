@@ -1,5 +1,6 @@
-import { createUser } from "./service";
 import db from "@/database";
+
+import { createUser } from "./service";
 
 describe("Authentication Service - createUser", () => {
   beforeAll(async () => {

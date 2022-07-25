@@ -1,8 +1,8 @@
 import express from "express";
 import { validateRequestBody } from "zod-express-middleware";
 
-import { createUser, SignUpSchema } from "./service";
 import passport from "./index";
+import { createUser, SignUpSchema } from "./service";
 
 const router = express.Router();
 

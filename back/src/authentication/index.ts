@@ -1,8 +1,9 @@
-import passport from "passport";
 import crypto from "crypto";
+import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
 import db from "@/database";
+
 import { hashPassword } from "./service";
 
 passport.use(
