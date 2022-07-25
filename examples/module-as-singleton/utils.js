@@ -1,3 +1,5 @@
 export default {
-  a: 1,
+  a: {
+    foo: "bar",
+  },
 };
