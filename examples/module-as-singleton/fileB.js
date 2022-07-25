@@ -1,5 +1,5 @@
-import utilsB from "./utils.js";
+import { default as a } from "./utils.js";
 
-utilsB.a = "randomvalue";
+a.foo = "randomvalue";
 
 export const hello = "world";
