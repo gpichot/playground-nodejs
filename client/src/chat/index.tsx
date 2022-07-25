@@ -1,5 +1,6 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchApiMessages, postApiMessage } from "src/interface";
 import { useWebsocket } from "src/websocket";
 type Message = {
@@ -11,38 +12,44 @@ type Message = {
 export function RoomPage() {
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("room");
-  const { data: messages, refetch } = useMessageList(roomId || "main");
+  const messagesQuery = useMessageList(roomId || "main");
+  if (messagesQuery.isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (messagesQuery.isError) {
+    return <div>Error</div>;
+  }
+  const { data: messages } = messagesQuery;
   return (
     <>
       <MessageList messages={messages} />
-      <MessageForm room={roomId || "main"} onSubmit={refetch} />
+      <MessageForm room={roomId || "main"} onSubmit={messagesQuery.refetch} />
     </>
   );
 }
 
 function useMessageList(room: string) {
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  React.useEffect(() => {
-    fetchApiMessages(room).then(setMessages);
-  }, [room]);
+  const queryClient = useQueryClient();
+  const messagesQuery = useQuery(["messages", room], () =>
+    fetchApiMessages(room)
+  );
 
   const ws = useWebsocket();
   React.useEffect(() => {
     const handleNewMessage = (message: Message) => {
-      setMessages((messages) => [...messages, message]);
+      console.log(message);
+      queryClient.setQueryData(["messages", room], (data) => {
+        const messages = Array.isArray(data) ? (data as Message[]) : [];
+        return [...messages, message];
+      });
     };
     ws.on("message", handleNewMessage);
     return () => {
       ws.removeListener("message", handleNewMessage);
     };
-  }, [ws]);
+  }, [ws, queryClient, room]);
 
-  return {
-    data: messages,
-    refetch: () => {
-      fetchApiMessages(room).then(setMessages);
-    },
-  };
+  return messagesQuery;
 }
 
 function useAddMessageMutation(room: string) {
