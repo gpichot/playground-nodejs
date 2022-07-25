@@ -1,17 +1,37 @@
 import React from "react";
-import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import ForumIcon from "@mui/icons-material/Forum";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-
-import { WebsocketProvider } from "src/websocket";
-import { RoomPage } from "src/chat";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SignInForm from "./authentication/SignInForm";
-import { Box, Button, Divider, Tab, Tabs, Typography } from "@mui/material";
-import SignUpForm from "./authentication/SignUpForm";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+import { RoomPage } from "src/chat";
+import { WebsocketProvider } from "src/websocket";
+
+import "./App.css";
+
 import { AuthProvider, useAuthContext } from "./authentication/context";
+import SignInForm from "./authentication/SignInForm";
+import SignUpForm from "./authentication/SignUpForm";
+import { getRooms } from "./interface";
 
 const theme = createTheme();
 
@@ -20,6 +40,8 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
+const queryClient = new QueryClient();
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -40,28 +62,86 @@ function TabPanel(props: TabPanelProps) {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <CssBaseline />
-        <WebsocketProvider>
-          <Grid container component="main" sx={{ height: "100vh" }}>
-            <Grid
-              item
-              xs={12}
-              sm={8}
-              md={3}
-              component={Paper}
-              elevation={6}
-              square
-            >
-              <LeftSide />
-            </Grid>
-            <Grid item xs={false} sm={4} md={9} sx={{ padding: "1rem" }}>
-              <RoomPage />
-            </Grid>
-          </Grid>
-        </WebsocketProvider>
-      </AuthProvider>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <CssBaseline />
+            <WebsocketProvider>
+              <Grid container component="main" sx={{ height: "100vh" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={8}
+                  md={2}
+                  component={Paper}
+                  elevation={6}
+                  square
+                >
+                  <LeftSide />
+                </Grid>
+                <Grid item xs={false} sm={4} md={8} sx={{ padding: "1rem" }}>
+                  <RoomPage />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={8}
+                  md={2}
+                  component={Paper}
+                  elevation={6}
+                  square
+                >
+                  <RoomsList />
+                </Grid>
+              </Grid>
+            </WebsocketProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </BrowserRouter>
     </ThemeProvider>
+  );
+}
+
+type RoomDetail = {
+  name: string;
+};
+
+function RoomsList() {
+  const roomsQuery = useQuery(
+    ["rooms"],
+    () => getRooms() as unknown as RoomDetail[]
+  );
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const roomId = searchParams.get("room");
+
+  if (roomsQuery.isLoading) return <p>Loading</p>;
+  if (roomsQuery.isError) return <p>Error</p>;
+
+  const { data: rooms } = roomsQuery;
+  return (
+    <div>
+      <List>
+        {rooms.map((x) => (
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href={`?room=${x.name}`}
+              selected={x.name === roomId}
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                setSearchParams({ room: x.name });
+              }}
+            >
+              <ListItemIcon>
+                <ForumIcon />
+              </ListItemIcon>
+              <ListItemText primary={x.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </div>
   );
 }
 function LeftSide() {

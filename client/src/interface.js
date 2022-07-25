@@ -58,3 +58,16 @@ export function getProfile() {
     })
     .catch((error) => console.log(error));
 }
+
+export function getRooms() {
+  return fetch(`${API_URL}/messages/rooms`, {
+    credentials: "include",
+  })
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch rooms");
+      }
+      return response.json();
+    })
+    .catch((error) => console.log(error));
+}
