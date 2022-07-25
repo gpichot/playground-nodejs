@@ -59,8 +59,6 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const hasAuth = process.env.REACT_APP_AUTH_ENABLED ?? false;
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -70,26 +68,18 @@ function App() {
             <CssBaseline />
             <WebsocketProvider>
               <Grid container component="main" sx={{ height: "100vh" }}>
-                {hasAuth && (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={8}
-                    md={2}
-                    component={Paper}
-                    elevation={6}
-                    square
-                  >
-                    <LeftSide />
-                  </Grid>
-                )}
                 <Grid
                   item
-                  xs={false}
-                  sm={4}
-                  md={hasAuth ? 8 : 10}
-                  sx={{ padding: "1rem" }}
+                  xs={12}
+                  sm={8}
+                  md={2}
+                  component={Paper}
+                  elevation={6}
+                  square
                 >
+                  <LeftSide />
+                </Grid>
+                <Grid item xs={false} sm={4} md={8} sx={{ padding: "1rem" }}>
                   <RoomPage />
                 </Grid>
                 <Grid
