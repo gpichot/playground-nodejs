@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev:serve": "ts-node-dev -r tsconfig-paths/register src/index.ts",
+    "dev:serve": "ts-node-dev -r tsconfig-paths/register src/index.js",
     "dev": "npm-run-all -l -p dev:*",
     "format": "prettier --write 'src/**/*.{ts,js,mjs,cjs,json,md}'",
     "lint": "eslint src/",
