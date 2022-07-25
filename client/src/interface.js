@@ -1,6 +1,6 @@
 export const API_URL = process.env.REACT_APP_API_URL ?? "http://localhost:8000";
 export function fetchApiMessages(room) {
-  const url = `${API_URL}/messages/${room}`;
+  const url = `${API_URL}/chat/${room}`;
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.log(error));
@@ -10,7 +10,7 @@ export function postApiMessage(room, text) {
   return fetch(`${API_URL}/messages/${room}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "chat/json",
     },
     body: JSON.stringify({ text }),
     credentials: "include",
@@ -60,7 +60,7 @@ export function getProfile() {
 }
 
 export function getRooms() {
-  return fetch(`${API_URL}/messages/rooms`, {
+  return fetch(`${API_URL}/chat/rooms`, {
     credentials: "include",
   })
     .then((response) => {
