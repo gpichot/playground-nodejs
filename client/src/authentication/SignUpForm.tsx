@@ -5,15 +5,29 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "src/interface";
+
+import { useAuthContext } from "./context";
 
 export default function SignUpForm() {
+  const authContext = useAuthContext();
+  const signUpMutation = useMutation(
+    ({ username, password }: { username: string; password: string }) => {
+      return signUp(username, password);
+    }
+  );
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      nickname: data.get("nickname"),
-      password: data.get("password"),
-    });
+    const username = data.get("username") as string;
+    const password = data.get("password") as string;
+    if (!username || !password) {
+      return;
+    }
+    signUpMutation
+      .mutateAsync({ username, password })
+      .then(() => authContext.signIn(username, password));
   };
 
   return (
@@ -39,7 +53,7 @@ export default function SignUpForm() {
           fullWidth
           id="email"
           label="Nickname"
-          name="nickname"
+          name="username"
           autoComplete="nickname"
           autoFocus
         />
@@ -58,6 +72,7 @@ export default function SignUpForm() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          disabled={signUpMutation.isLoading}
         >
           Sign Up
         </Button>

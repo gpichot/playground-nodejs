@@ -22,7 +22,13 @@ const validateBody: typeof validateRequestBody = (schema) => {
 };
 
 router.post("/sign-up", validateBody(SignUpSchema), async (req, res) => {
-  await createUser(req.body);
+  try {
+    await createUser(req.body);
+  } catch (error) {
+    console.error(error);
+    res.status(400);
+    return;
+  }
 
   res.status(201).json({ ok: true });
 });
