@@ -59,7 +59,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const hasAuth = process.env.REACT_APP_AUTH_ENABLED ?? false;
+const hasAuth = Boolean(process.env.REACT_APP_AUTH_ENABLED) ?? false;
 
 function App() {
   return (
