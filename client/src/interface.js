@@ -10,7 +10,7 @@ export function postApiMessage(room, text) {
   return fetch(`${API_URL}/messages/${room}`, {
     method: "POST",
     headers: {
-      "Content-Type": "chat/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ text }),
     credentials: "include",
