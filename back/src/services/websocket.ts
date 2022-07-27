@@ -1,6 +1,5 @@
 import io from "socket.io";
-
-import bus from "@/bus";
+import bus from "src/bus";
 
 const CLIENT_URL = process.env.client_URL ?? "http://localhost:3000"
 

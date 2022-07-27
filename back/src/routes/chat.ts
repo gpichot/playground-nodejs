@@ -1,8 +1,7 @@
 import express, {Request, Response, Router} from "express"
+import bus from "src/bus"
+import db from "src/services/mongoClient"
 import * as uuid from "uuid"
-
-import bus from "@/bus"
-import db from "@/services/mongoClient"
 
 const router: Router = express.Router()
 
