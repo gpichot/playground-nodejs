@@ -7,6 +7,7 @@ type Message = {
   id: string;
   username: string;
   text: string;
+  room: string;
 };
 
 export function RoomPage() {
@@ -38,7 +39,7 @@ function useMessageList(room: string) {
   React.useEffect(() => {
     const handleNewMessage = (message: Message) => {
       console.log(message);
-      queryClient.setQueryData(["messages", room], (data) => {
+      queryClient.setQueryData(["messages", message.room], (data) => {
         const messages = Array.isArray(data) ? (data as Message[]) : [];
         return [...messages, message];
       });

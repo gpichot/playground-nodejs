@@ -1,4 +1,4 @@
-export const API_URL = process.env.REACT_APP_API_URL ?? "http://localhost:8000";
+export const API_URL = process.env.REACT_APP_API_URL ?? "http://localhost:3000";
 export function fetchApiMessages(room) {
   const url = `${API_URL}/chat/${room}`;
   return fetch(url)
@@ -7,7 +7,7 @@ export function fetchApiMessages(room) {
 }
 
 export function postApiMessage(room, text) {
-  return fetch(`${API_URL}/messages/${room}`, {
+  return fetch(`${API_URL}/chat/${room}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
