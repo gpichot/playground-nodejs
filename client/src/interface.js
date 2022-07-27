@@ -7,7 +7,7 @@ export function fetchApiMessages(room) {
 }
 
 export function postApiMessage(room, text) {
-  return fetch(`${API_URL}/messages/${room}`, {
+  return fetch(`${API_URL}/chat/${room}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
