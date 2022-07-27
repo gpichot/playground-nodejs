@@ -2,6 +2,8 @@ import express  from "express";
 import cors from "cors";
 import db from '@/mongo';
 
+import { socketServer } from "./index";
+
 const app = express();
 app.use(cors({
     origin: "http://localhost:3000",
@@ -59,6 +61,9 @@ app.post(`/chat/:rooms`, async (req,res) =>{
     await db.collection('messages').insertOne(messages)
     //
     const messages2 = await db.collection('messages').find({ room: roomParam }).toArray();
+    //socket emit
+    socketServer.emit("message",messages);
+
     return res.json(messages2);
 });
 
