@@ -23,9 +23,12 @@ export function updateBoard(board, x, y) {
     throw new Error("Invalid move - position already taken");
   }
 
-  board[y][x] = playerToMove;
-
-  return board;
+  return board.map((row, rowIndex) => {
+    if (rowIndex !== y) return row;
+    return row.map((cell, cellIndex) => {
+      return cellIndex === x ? playerToMove : cell;
+    });
+  });
 }
 
 export function getWinner(board) {

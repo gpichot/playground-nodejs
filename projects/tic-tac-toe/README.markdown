@@ -6,9 +6,9 @@ We will build an API that allow users to play a game of Tic Tac Toe. The API wil
 
 We will make it gradually more complex by adding features such as:
 
-- Storing the game state in a database
 - Validating moves
 - Checking for a winner
+- Storing the game state in a database
 - Use websockets for real-time updates
 
 ## Getting Started

@@ -1,8 +1,9 @@
 import express from "express";
 import { z } from "zod";
 import { validateRequestBody } from "zod-express-middleware";
+
 import { Game } from "../mongo";
-import { createNewBoard, updateBoard } from "../tictactoe.utils";
+import { createNewBoard, getWinner, updateBoard } from "../tictactoe.utils";
 
 const router = express.Router();
 
@@ -38,12 +39,19 @@ router.post(
     const { x, y } = req.body;
 
     try {
-      updateBoard(game.board, x, y);
+      game.board = updateBoard(game.board, x, y);
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
-    await Game.findByIdAndUpdate(req.params.id, game);
-    return res.json(game);
+    const winner = getWinner(game.board);
+    if (winner) {
+      game.winner = winner;
+      game.isOver = true;
+    }
+
+    const gameResult = await game.save();
+
+    return res.json(gameResult);
   }
 );
 
