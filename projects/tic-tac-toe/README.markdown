@@ -169,11 +169,15 @@ mongoose.connect(mongoUri);
    project:
 
 ```bash
-export MONGODB_URL=mongodb://localhost:27017/tictactoe
+export MONGODB_URI=mongodb://localhost:27017/tictactoe
 # Or ask Gabriel for the connection string
 ```
 
-Bonus 👌: use `dotenv` to load the env variables from a `.env` file.
+Bonus 👌: use `dotenv` to load the env variables from a `.env` file:
+
+```dotenv
+MONGODB_URI=mongodb://localhost:27017/tictactoe
+```
 
 4. Create a new file `src/models/game.js` to define the game schema:
 
