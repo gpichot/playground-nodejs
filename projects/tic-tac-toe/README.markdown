@@ -134,6 +134,8 @@ run a whole game.
 
 5. Add a function to check if there is a winner
 
+6. Add a delete route to reset the game `DELETE /game`.
+
 ## Database
 
 For now, we are storing the game state in memory. If we restart the server, the
