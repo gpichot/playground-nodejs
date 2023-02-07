@@ -1,8 +1,17 @@
 import "dotenv/config";
+
 import app from "./app";
+import io from "./websocket";
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Server is up on port ${port}`);
+const server = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+io.attach(server, {
+  cors: {
+    // Not safe
+    origin: "*",
+  },
 });

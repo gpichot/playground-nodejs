@@ -1,5 +1,8 @@
 exercises/CORE-Core-Libraries/resources/all.txt
 exercises/CORE-Core-Libraries/resources/all.txt.gz
+exercises/CORE-Core-Libraries/primes.txt
+exercises/CORE-Core-Libraries/prime-numbers.txt
+projects/tic-tac-toe/correction/build/
 
 # Created by https://www.toptal.com/developers/gitignore/api/vim,visualstudiocode,node,react,macos,windows,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=vim,visualstudiocode,node,react,macos,windows,linux

@@ -5,6 +5,7 @@ import { validateRequestBody } from "zod-express-middleware";
 
 import gamesRouter from "./routes/games";
 import { createNewBoard, updateBoard } from "./tictactoe.utils";
+import { createWorker } from "./worker.cjs";
 
 const app = express();
 
@@ -13,6 +14,12 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.get("/fibonacci/:n", async (req, res) => {
+  const n = parseInt(req.params.n);
+  const result = await createWorker(n);
+  res.send(result.toString());
 });
 
 const board = {

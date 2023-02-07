@@ -2,6 +2,7 @@ import express from "express";
 import { z } from "zod";
 import { validateRequestBody } from "zod-express-middleware";
 
+import gameBus from "../bus";
 import { Game } from "../mongo";
 import { createNewBoard, getWinner, updateBoard } from "../tictactoe.utils";
 
@@ -21,7 +22,10 @@ router.post("/", async (req, res) => {
   const game = await Game.create({
     board: createNewBoard(),
   });
-  res.json(game);
+
+  gameBus.emit("gameCreated", game);
+
+  res.status(201).json(game);
 });
 
 router.get("/:id", async (req, res) => {
@@ -33,7 +37,6 @@ router.post(
   "/:id/move",
   validateRequestBody(GameMoveSchema),
   async (req, res) => {
-    console.log(req.params);
     const game = await Game.findById(req.params.id);
 
     const { x, y } = req.body;
@@ -49,9 +52,11 @@ router.post(
       game.isOver = true;
     }
 
+    gameBus.emit("gameMove", game);
+
     const gameResult = await game.save();
 
-    return res.json(gameResult);
+    return res.status(202).json(gameResult);
   }
 );
 
