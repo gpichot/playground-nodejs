@@ -51,10 +51,4 @@ Run the project with `yarn dev`.
 
 ## [Scaling](./006-scaling.markdown)
 
-## Bonus: Use a Worker Thread to compute Fibonacci numbers
-
-1. Create a new file `src/worker.cjs`.
-
-ES Modules are not yet supported in Worker Threads so use CommonJS.
-
-Check the [documentation](https://nodejs.org/api/worker_threads.html#worker_threads_worker_threads).
+## [Bonus: Use a Worker Thread to compute Fibonacci numbers](./B01-worker-thread.markdown)

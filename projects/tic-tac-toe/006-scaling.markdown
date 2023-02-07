@@ -35,3 +35,33 @@ ab -k -c 10 -n 100 "http://localhost:3000/games/"
 
 Add two instances of the application and check the performance of the
 application.
+
+## Sockets
+
+Does the socket still works?
+
+We will need to use two components to make the socket works in a cluster with
+pm2.
+
+1. Install `@socket.io/pm2`:
+
+```bash
+yarn add @socket.io/pm2
+```
+
+2. Add the following to the `src/index.js` file:
+
+```javascript
+import { createAdapter } from "@socket.io/cluster-adapter";
+import { setupWorker } from "@socket.io/sticky";
+import cluster from "cluster";
+
+// ...
+
+// At the edd
+if (cluster.worker) {
+  io.adapter(createAdapter());
+
+  setupWorker(io);
+}
+```
