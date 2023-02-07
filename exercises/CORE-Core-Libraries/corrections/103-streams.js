@@ -39,6 +39,8 @@ console.log("--- Exercise 1 ---");
 //     primeStream,
 //     fs.createWriteStream("prime-numbers-1.txt", { encoding: "utf-8" })
 //   );
+// } catch(err) {
+//  console.error(err);
 // }
 
 console.log("--- Exercise 2 ---");
