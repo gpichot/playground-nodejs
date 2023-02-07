@@ -85,6 +85,12 @@ You can test it with Postman, Insomnia or curl:
 curl http://localhost:3000
 ```
 
+5. Create a route `GET /fibonacci/:n` that returns the nth number of the Fibonacci sequence.
+
+Reminder: Retrieve the value of `n` from `req.params.n`.
+
+Use the Fibonacci sequence formula [from readline exercise](../../exercises/CORE-Core-Libraries/102-readline.js).
+
 # 3. Create a game
 
 1. Create a new endpoint that returns an empty board `GET /game`.
@@ -207,4 +213,40 @@ await Game.findById(id);
 await Game.create({ board: [] });
 // Update a game
 await Game.findByIdAndUpdate(id, { board: [] });
+```
+
+## Websockets
+
+We will use websockets to send real-time updates to the client.
+
+1. Add socket.io to the project
+
+```bash
+yarn add socket.io
+```
+
+2. Add the following code to `src/websocket.js`:
+
+```javascript
+import { Server } from "socket.io";
+
+const io = new Server();
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+});
+
+export default io;
+```
+
+3. Add the following code to `src/index.js`:
+
+```javascript
+import io from "./websocket";
+
+const server = app.listen(port, () => {
+  console.log(`Server is up on port ${port}`);
+});
+
+io.attach(server);
 ```
