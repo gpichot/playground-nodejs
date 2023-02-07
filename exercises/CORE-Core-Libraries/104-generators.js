@@ -4,5 +4,5 @@ console.log("--- Exercise 1 ---");
 //
 // 2. Print the first 3 cubes using the generator function
 //
-// 3. Print the 10 cubes using `for (const ... of ...)`
+// 3. Print the 10 first cubes using `for (const ... of ...)`
 //
