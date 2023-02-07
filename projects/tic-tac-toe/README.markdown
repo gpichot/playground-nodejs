@@ -345,3 +345,5 @@ pm2 scale tictactoe-api +1
 1. Create a new file `src/worker.cjs`.
 
 ES Modules are not yet supported in Worker Threads.
+
+Check the [documentation](https://nodejs.org/api/worker_threads.html#worker_threads_worker_threads).
