@@ -7,15 +7,24 @@ const io = new Server();
 const getGameRoom = (gameId) => `game:${gameId}`;
 
 gameBus.on("gameMove", (game) => {
-  io.to(getGameRoom(game.id)).emit("gameMove", {
-    board: game.board,
-    winner: game.winner,
-    isOver: game.isOver,
-  });
+  io.to(getGameRoom(game.id)).emit(
+    "gameMove",
+    JSON.stringify({
+      board: game.board,
+      winner: game.winner,
+      isOver: game.isOver,
+    })
+  );
 });
 
 gameBus.on("gameCreated", (game) => {
-  io.emit("gameCreated", game);
+  io.emit(
+    "gameCreated",
+    JSON.stringify({
+      _id: game._id,
+      board: game.board,
+    })
+  );
 });
 
 io.on("connection", (socket) => {

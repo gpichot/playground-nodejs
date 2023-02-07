@@ -1,3 +1,7 @@
+import { createAdapter } from "@socket.io/cluster-adapter";
+import { setupWorker } from "@socket.io/sticky";
+import cluster from "cluster";
+
 import "dotenv/config";
 
 import app from "./app";
@@ -15,3 +19,9 @@ io.attach(server, {
     origin: "*",
   },
 });
+
+if (cluster.worker) {
+  io.adapter(createAdapter());
+
+  setupWorker(io);
+}

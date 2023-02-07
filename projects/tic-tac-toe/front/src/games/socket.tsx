@@ -20,7 +20,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     setIsConnecting(true);
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("http://localhost:3000", {
+      transports: ["websocket"],
+    });
 
     setSocket(newSocket);
 
@@ -75,12 +77,13 @@ export function useGameRoom(gameId: string) {
 
     socket.emit("joinGame", gameId);
 
-    socket.on(
-      "gameMove",
-      (game: { board: string[][]; winner: string | null }) => {
-        queryClient.setQueryData(["game", gameId], game);
-      }
-    );
+    socket.on("gameMove", (game: string) => {
+      const gameParsed = JSON.parse(game) as {
+        board: string[][];
+        winner: string | null;
+      };
+      queryClient.setQueryData(["game", gameId], gameParsed);
+    });
 
     return () => {
       socket.emit("leaveGame", gameId);
