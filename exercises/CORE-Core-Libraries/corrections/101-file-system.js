@@ -3,12 +3,6 @@ import fsPromises from "fs/promises";
 import { createGzip } from "zlib";
 import { createReadStream, createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
-import path from "path";
-import url from "url";
-
-function filepath(p) {
-  return path.join(path.dirname(url.fileURLToPath(import.meta.url)), p);
-}
 
 // There are two objectives to this exercise:
 // 1. Learn how to use the fs module
@@ -27,9 +21,9 @@ console.log("--- Exercise 1: Blocking ---");
 // and print the content of the files to the console in the order they are read.
 // Hint: Use console.log() to print the content of the files to the console.
 
-const content1 = fs.readFileSync(filepath("../resources/one.txt"), "utf-8");
-const content2 = fs.readFileSync(filepath("../resources/two.txt"), "utf-8");
-const content3 = fs.readFileSync(filepath("../resources/three.txt"), "utf-8");
+const content1 = fs.readFileSync("resources/one.txt", "utf-8");
+const content2 = fs.readFileSync("resources/two.txt", "utf-8");
+const content3 = fs.readFileSync("resources/three.txt", "utf-8");
 const mergedContent = content1 + content2 + content3;
 
 console.log(mergedContent);
@@ -42,9 +36,9 @@ console.log("--- Exercise 2: Promises ---");
 
 async function mergeContent() {
   const contents = await Promise.all([
-    fsPromises.readFile(filepath("../resources/one.txt"), "utf-8"),
-    fsPromises.readFile(filepath("../resources/two.txt"), "utf-8"),
-    fsPromises.readFile(filepath("../resources/three.txt"), "utf-8"),
+    fsPromises.readFile("resources/one.txt", "utf-8"),
+    fsPromises.readFile("resources/two.txt", "utf-8"),
+    fsPromises.readFile("resources/three.txt", "utf-8"),
   ]);
   console.log(contents);
   return contents.join("");
@@ -56,7 +50,7 @@ console.log(mergedContent2);
 // 3. Write the concatenation of the content of the files to a new file called "resources/all.txt"
 // Hint: Use fsPromises.writeFile see: https://nodejs.org/api/fs.html#fspromiseswritefilefiledata-options
 
-await fsPromises.writeFile(filepath("../resources/all.txt"), mergedContent2);
+await fsPromises.writeFile("resources/all.txt", mergedContent2);
 console.log("File written");
 
 console.log("--- Exercise 3: Streams (Bonus) ---");
@@ -81,9 +75,9 @@ console.log("--- Exercise 3: Streams (Bonus) ---");
 
 try {
   await pipeline(
-    createReadStream(filepath("../resources/all.txt")),
+    createReadStream("resources/all.txt"),
     createGzip(),
-    createWriteStream(filepath("../resources/all.txt.gz"))
+    createWriteStream("resources/all.txt.gz")
   );
   console.log("File compressed");
 } catch (err) {
