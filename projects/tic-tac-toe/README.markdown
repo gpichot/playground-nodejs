@@ -163,7 +163,11 @@ if (!mongoUri) {
 mongoose.set("strict", false);
 
 mongoose.connect(mongoUri);
+
+export default mongoose;
 ```
+
+Import this file at the top of `src/app.js`.
 
 3. Export the following env variables in the shell you are using to run the
    project:
@@ -182,7 +186,7 @@ MONGODB_URI=mongodb://localhost:27017/tictactoe
 4. Create a new file `src/models/game.js` to define the game schema:
 
 ```javascript
-import mongoose from "mongoose";
+import mongoose from "../mongo";
 
 const gameSchema = new mongoose.Schema(
   {
@@ -335,3 +339,9 @@ module.exports = {
 ```bash
 pm2 scale tictactoe-api +1
 ```
+
+## Bonus: Use a Worker Thread to compute Fibonacci numbers
+
+1. Create a new file `src/worker.cjs`.
+
+ES Modules are not yet supported in Worker Threads.
