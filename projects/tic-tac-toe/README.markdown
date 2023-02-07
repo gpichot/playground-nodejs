@@ -91,6 +91,12 @@ Reminder: Retrieve the value of `n` from `req.params.n`.
 
 Use the Fibonacci sequence formula [from readline exercise](../../exercises/CORE-Core-Libraries/102-readline.js).
 
+Curl the `/fibonacci/10` route and check that you get the correct result.
+
+Curl the `/fibonacci/44` route. What happens? Why? Can you curl another route?
+
+At this point, you may want to kill the dev server and restart it.
+
 # 3. Create a game
 
 1. Create a new endpoint that returns an empty board `GET /game`.
@@ -215,7 +221,7 @@ await Game.create({ board: [] });
 await Game.findByIdAndUpdate(id, { board: [] });
 ```
 
-## Websockets
+## WebSockets
 
 We will use websockets to send real-time updates to the client.
 
@@ -239,7 +245,7 @@ io.on("connection", (socket) => {
 export default io;
 ```
 
-3. Add the following code to `src/index.js`:
+3. Add and adapt the following code to `src/index.js`:
 
 ```javascript
 import io from "./websocket";
@@ -249,4 +255,70 @@ const server = app.listen(port, () => {
 });
 
 io.attach(server);
+```
+
+4. In `src/websocket.js`, add the following code:
+
+```javascript
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+```
+
+Launch the front: go to the the front folder and run`yarn install && yarn dev`.
+
+You should see the following message in the console (express server):
+
+```bash
+a user connected
+```
+
+5. The front is sending us some events:
+
+- `joinGame` with the game ID as payload when the user joins a game
+- `leaveGame` with the game ID when the user leaves a game
+
+Use this events to add the user to a Socket.IO room.
+
+6. The front uses two events to receive the updates from the server:
+
+- `gameMove` with the a payload `{ board, winner, isOver }` when a move is made
+- `gameCreated` with the game payload `{ id, board, winner, isOver }` when a new
+  game is created
+
+Use `io.to(room).emit(eventName, payload)` to send the events to the users in a
+room.
+
+Use `io.emit(eventName, payload)` to broadcast the events to all users.
+
+## Scaling
+
+We will use [pm2](https://pm2.keymetrics.io/) to run the server in production.
+
+1. Create an ecosystem file `ecosystem.config.cjs`:
+
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: "tictactoe-api",
+      script: "./build/src/index.js",
+      interpreter: "node",
+      exec_mode: "cluster",
+    },
+  ],
+};
+```
+
+2. Build the project using `yarn build`.
+
+3. Launch the server using `pm2 start ecosystem.config.cjs`.
+
+4. Add an instance of the application with:
+
+```bash
+pm2 scale tictactoe-api +1
 ```
