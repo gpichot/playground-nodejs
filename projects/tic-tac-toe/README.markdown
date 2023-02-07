@@ -180,9 +180,16 @@ Bonus 👌: use `dotenv` to load the env variables from a `.env` file.
 ```javascript
 import mongoose from "mongoose";
 
-const gameSchema = new mongoose.Schema({
-  board: [[String]],
-});
+const gameSchema = new mongoose.Schema(
+  {
+    board: [[String]],
+  },
+  { collection: `games-{my-name}` }
+);
+
+const Game = mongoose.model("Game", gameSchema);
+
+export default Game;
 ```
 
 5. Create a new file `src/routes/games.js`:
