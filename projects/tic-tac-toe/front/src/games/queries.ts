@@ -3,12 +3,17 @@ import { z } from "zod";
 
 const baseUrl = "http://localhost:3000";
 
+const PlayerSchema = z.enum(["X", "O", ""]);
+const RowSchema = z.tuple([PlayerSchema, PlayerSchema, PlayerSchema]);
+const BoardSchema = z.tuple([RowSchema, RowSchema, RowSchema]);
 const GameSchema = z.object({
   _id: z.string(),
-  board: z.array(z.array(z.string())),
+  board: BoardSchema,
   winner: z.string().optional().nullable().default(null),
   isOver: z.boolean().optional().default(false),
 });
+
+export type Game = z.infer<typeof GameSchema>;
 
 const GameListSchema = z.array(
   z.object({
@@ -19,12 +24,18 @@ const GameListSchema = z.array(
 );
 
 export function useGameListQuery() {
-  return useQuery(["games"], async () => {
-    const response = await fetch(`${baseUrl}/games`);
+  return useQuery(
+    ["games"],
+    async () => {
+      const response = await fetch(`${baseUrl}/games`);
 
-    if (!response.ok) throw new Error("Failed to fetch games");
-    return GameListSchema.parse(await response.json());
-  });
+      if (!response.ok) throw new Error("Failed to fetch games");
+      return GameListSchema.parse(await response.json());
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 }
 
 export function useGameQuery(gameId: string | undefined) {
@@ -37,6 +48,7 @@ export function useGameQuery(gameId: string | undefined) {
       return GameSchema.parse(await response.json());
     },
     {
+      refetchOnWindowFocus: false,
       enabled: Boolean(gameId),
     }
   );

@@ -2,11 +2,23 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { useGameQuery } from "../queries";
+import { useGameRoom } from "../socket";
 import Board from "./Board";
 
-export default function GameBoard() {
+export default function GameBoardWrapper() {
   const { gameId } = useParams<{ gameId: string }>();
+
+  if (!gameId) {
+    return <div>Game not found</div>;
+  }
+
+  return <GameBoard gameId={gameId} />;
+}
+
+export function GameBoard({ gameId }: { gameId: string }) {
   const game = useGameQuery(gameId);
+
+  useGameRoom(gameId);
 
   if (game.isLoading) {
     return <div>Loading...</div>;

@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 import GameList from "./games/components/GameList";
 import { useCreateGameMutation } from "./games/queries";
+import { useSocket } from "./games/socket";
 
 import "./globals.scss";
 import styles from "./App.module.scss";
@@ -16,9 +17,13 @@ function App() {
       navigate(`/games/${game._id}`);
     });
   };
+
+  const { isConnected } = useSocket();
+
   return (
     <div className={styles.app}>
       <div className={styles.gameList}>
+        {isConnected ? "🟢" : "🔴"}
         <GameList />
         <button type="button" onClick={handleCreateGameClick}>
           New Game
