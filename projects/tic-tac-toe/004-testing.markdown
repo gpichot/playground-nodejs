@@ -48,6 +48,13 @@ module.exports = {
 };
 ```
 
+In `src/mongo.js` replace the mongodb connection with the following:
+
+````javascript
+if (process.env.NODE_ENV !== "test") {
+  mongoose.connect(mongoUri);
+}
+
 👌 We are ready now!
 
 ## Adding tests
@@ -114,7 +121,7 @@ describe("POST /games/:id/move", () => {
 
   it.todo("finish the game when there is a winner");
 });
-```
+````
 
 Take some time to understand what is happening here.
 

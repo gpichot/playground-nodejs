@@ -6,7 +6,8 @@ if (!mongoUri) {
   throw new Error("MONGODB_URI is not defined");
 }
 mongoose.set("strictQuery", false);
-
-mongoose.connect(mongoUri);
+if (process.env.NODE_ENV !== "test") {
+  mongoose.connect(mongoUri);
+}
 
 export { default as Game } from "./models/game";
