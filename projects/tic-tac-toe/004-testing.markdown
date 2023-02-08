@@ -29,6 +29,7 @@ module.exports = {
     autoStart: false,
     instance: {},
   },
+  mongoURLEnvName: "MONGODB_URI",
 };
 ```
 
@@ -41,6 +42,7 @@ module.exports = {
   modulePathIgnorePatterns: ["<rootDir>/__tests__/utils"],
   transform: {
     "^.+\\.jsx?$": "ts-jest",
+    "^.+\\.tsx?$": "ts-jest",
   },
   watchPathIgnorePatterns: ["<rootDir>/globalConfig.json"],
 };
@@ -60,7 +62,7 @@ import mongoose from "mongoose";
 import supertest from "supertest";
 
 import app from "../app";
-import { Game } from "../mongo";
+import { Game } from "../models/game";
 
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGODB_URI, { connectTimeoutMS: 2000 });
