@@ -98,7 +98,7 @@ describe("POST /games/", () => {
 });
 
 describe("GET /games/:id", () => {
-  it.tody("returns a game");
+  it.todo("returns a game");
 });
 
 describe("POST /games/:id/move", () => {
