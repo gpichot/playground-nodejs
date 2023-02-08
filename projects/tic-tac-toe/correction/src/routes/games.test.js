@@ -6,7 +6,7 @@ import Game from "../models/game";
 import { createNewBoard } from "../tictactoe.utils";
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_URI, { connectTimeoutMS: 2000 });
+  // await mongoose.connect(process.env.MONGODB_URI, { connectTimeoutMS: 2000 });
 });
 
 afterAll(async () => {

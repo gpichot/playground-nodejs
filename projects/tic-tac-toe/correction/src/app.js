@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome Tic Tac Toe!");
 });
 
 app.get("/fibonacci/:n", async (req, res) => {

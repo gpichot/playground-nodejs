@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const mongoUri = process.env.MONGODB_URI;
+const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 if (!mongoUri) {
   throw new Error("MONGODB_URI is not defined");
