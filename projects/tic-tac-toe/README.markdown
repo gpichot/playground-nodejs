@@ -43,7 +43,7 @@ Run the project with `yarn dev`.
 
 ## [Basic Game](./002-basic-game.markdown)
 
-## [Database](./003-mongodb.markdown)
+## [Database](./003-mongodb.markdown) OR [Postgres](./003-pg-and-prisma.markdown)
 
 ## [Testing](./004-testing.markdown)
 
