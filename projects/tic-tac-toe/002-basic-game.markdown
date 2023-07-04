@@ -4,6 +4,14 @@
 
 For now, we will use a 2d array to represent the board.
 
+```json
+[
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
+]
+```
+
 2. Create a new endpoint that allow a user to tick a box `POST /game/move`.
 
 The request body should contain the coordinates of the box to tick.
