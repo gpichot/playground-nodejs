@@ -1,5 +1,7 @@
 # Basic Game
 
+For now, we will use a global variable to store the game state.
+
 1. Create a new endpoint that returns an empty board `GET /game`.
 
 For now, we will use a 2d array to represent the board.
