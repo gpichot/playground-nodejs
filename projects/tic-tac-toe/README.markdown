@@ -24,7 +24,7 @@ We will make it gradually more complex by adding features such as:
 ```bash
 npx degit gpichot/rapide/templates/node tictactoe
 cd tictactoe
-yarn install
+npm install
 ```
 
 If you are using JavaScript:

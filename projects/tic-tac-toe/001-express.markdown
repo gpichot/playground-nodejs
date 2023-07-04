@@ -3,12 +3,14 @@
 1. Add express using
 
 ```bash
-yarn add express
+npm add express
+# With Typescript add the types with
+npm add --save-dev @types/express
 ```
 
 2. In the index file, add the following code:
 
-```javascript
+```typescript
 import app from "./app";
 
 const port = process.env.PORT || 3000;
@@ -18,9 +20,9 @@ app.listen(port, () => {
 });
 ```
 
-3. Create a new file `app.js` in the `src` folder and add the following code:
+3. Create a new file `app.ts` in the `src` folder and add the following code:
 
-```javascript
+```typescript
 import express from "express";
 
 const app = express();
@@ -28,11 +30,11 @@ const app = express();
 export default app;
 ```
 
-4. Add a route `GET /` that returns a welcome message.
+4. Add a route `GET /` that returns a welcome message in `app.ts`.
 
 Reminder:
 
-```javascript
+```typescript
 app.get("/my-route", (req, res) => {
   res.send("Welcome to Tic Tac Toe");
 });
