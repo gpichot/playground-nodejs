@@ -53,7 +53,7 @@ Add the following script to package.json:
 4. Add the following endpoints:
 
 ```text
-GET /exercises: Create a new exercise
+GET /exercises: List all exercises
 GET /exercises/:id : Get an exercise by id
 POST /exercises : Create a new exercise
 DELETE /exercises/:id : Delete an exercise by id
