@@ -147,3 +147,50 @@ import ExerciseModel from "./models/ExerciseModel.js";
 // ExerciseModel.create ...
 // ExerciseModel.findByIdAndDelete ...
 ```
+
+## Users
+
+1. Add a user model with the following data model:
+
+```typescript
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  role: "Admin" | "User";
+}
+```
+
+2. Add a user repository:
+
+```javascript
+class UserRepository {
+  async findAll() {
+    // ...
+  }
+
+  async findById(id) {
+    // ...
+  }
+
+  async create(user) {
+    // ...
+  }
+
+  async delete(id) {
+    // ...
+  }
+}
+
+export default new UserRepository();
+```
+
+3. Add a router for users:
+
+```text
+GET /users: List all users
+GET /users/:id : Get an user by id
+POST /users : Create a new user
+DELETE /users/:id : Delete an user by id
+```
