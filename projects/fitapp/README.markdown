@@ -107,3 +107,31 @@ export const exercices = [
   },
 ];
 ```
+
+## MongoDB & mongoose
+
+1. Install mongodb and mongoose:
+
+```
+npm install  mongoose
+```
+
+2. Connect to your MongoDB and create a first model:
+
+```javascript
+import mongoose from "mongoose";
+
+const client = await mongoose.connect("mongodb://localhost:27017/fitomapp");
+
+const ExerciseSchema = new mongoose.Schema({
+  nom: { type: String, required: true },
+  muscles: { type: [String], required: true },
+  nombreRepetitions: { type: Number, required: true },
+  difficulte: { type: Number, required: true },
+  description: { type: String, required: true },
+});
+
+const ExerciseModel = mongoose.model("Exercise", ExerciseSchema);
+
+export default ExerciseModel;
+```
