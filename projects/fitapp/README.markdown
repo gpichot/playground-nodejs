@@ -116,7 +116,8 @@ export const exercices = [
 npm install  mongoose
 ```
 
-2. Connect to your MongoDB and create a first model:
+2. Connect to your MongoDB and create a first model by creating a file
+   `src/mongo.js` with the following content:
 
 ```javascript
 import mongoose from "mongoose";
