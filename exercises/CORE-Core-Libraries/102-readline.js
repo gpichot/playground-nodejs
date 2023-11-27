@@ -1,5 +1,5 @@
 import { stdin, stdout } from "process";
-import { createInterface } from "node:readline/promises";
+import fs from "node:fs/promises";
 
 function fibonacci(n) {
   if (n < 0)
@@ -24,3 +24,13 @@ console.log("--- Exercise 1: Readline ---");
 // Hint: Use createInterface see: https://nodejs.org/api/readline.html#readline_readline_createinterface_options
 //
 // Use the async/await syntax to make the code more readable.
+
+try {
+  const contents = fs
+    .readFile("./helloidonotexists.txt", "utf8")
+    .catch(console.log);
+} catch (e) {
+  console.log(e);
+}
+
+setTimeout(() => console.log("Hello again"), 2000);
