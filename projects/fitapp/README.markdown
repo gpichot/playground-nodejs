@@ -135,3 +135,14 @@ const ExerciseModel = mongoose.model("Exercise", ExerciseSchema);
 
 export default ExerciseModel;
 ```
+
+3. Replace the in-memory database by the MongoDB database:
+
+```javascript
+import ExerciseModel from "./models/ExerciseModel.js";
+
+// ExerciseModel.find ...
+// ExerciseModel.findById ...
+// ExerciseModel.create ...
+// ExerciseModel.findByIdAndDelete ...
+```
