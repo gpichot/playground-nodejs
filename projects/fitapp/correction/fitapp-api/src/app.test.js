@@ -12,3 +12,19 @@ describe("GET /ping", () => {
     expect(response.text).toEqual("pong");
   });
 });
+
+describe("POST /pong", () => {
+  const request = supertest(app);
+  it.each`
+    n    | expected
+    ${1} | ${"ping"}
+    ${2} | ${"pong"}
+  `("[200] should return $expected when it's $n", async ({ n, expected }) => {
+    const response = await request.post("/pong").send({
+      n,
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.text).toEqual(expected);
+  });
+});

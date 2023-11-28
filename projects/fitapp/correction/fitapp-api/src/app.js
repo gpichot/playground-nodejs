@@ -18,7 +18,7 @@ app.get("/ping", (req, res) => {
 });
 
 app.post("/pong", (req, res) => {
-  const n = req.body;
+  const n = req.body.n;
 
   if (n % 2 === 0) {
     return res.send("pong");
