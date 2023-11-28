@@ -38,13 +38,10 @@ const BadgeList = styled.div`
 
 export default function App() {
   const [selectedMuscle, setSelectedMuscle] = useQueryParams("muscle");
+
   const exercisesQuery = useQuery({
-    queryKey: ["exercises", { muscle: selectedMuscle }],
+    queryKey: ["exercises", { muscle: selectedMuscle ?? undefined }],
     queryFn: async () => {
-      console.log(
-        "fetching exercises",
-        `http://localhost:3000/exercises?muscle=${selectedMuscle}`
-      );
       const response = await fetch(
         `http://localhost:3000/exercises?muscle=${selectedMuscle}`
       );
@@ -60,6 +57,7 @@ export default function App() {
     return <>Une erreur est survenue</>;
   }
   const { data: exercises } = exercisesQuery;
+  console.log(exercises);
   return (
     <Main>
       <BadgeList>
@@ -68,9 +66,15 @@ export default function App() {
             key={muscle.value}
             style={{
               backgroundColor:
-                muscle.value === selectedMuscle ? "#add8e611" : "transparent",
+                muscle.value === selectedMuscle ? "#add8e644" : "transparent",
             }}
-            onClick={() => setSelectedMuscle(muscle.value)}
+            onClick={() => {
+              if (muscle.value === selectedMuscle) {
+                setSelectedMuscle(null);
+                return;
+              }
+              setSelectedMuscle(muscle.value);
+            }}
           >
             {muscle.label}
           </Badge>

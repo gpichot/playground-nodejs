@@ -23,9 +23,10 @@ export function useQueryParams(
   );
 
   const setValue = React.useCallback(
-    (value: string) => {
+    (value: string | null) => {
       if (!value) {
         window.history.replaceState({}, "", window.location.pathname);
+        setParamValue(null);
         return;
       }
 

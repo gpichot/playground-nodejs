@@ -6,9 +6,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const { muscle } = req.query;
 
-  const exercises = await ExerciseRepository.getExercises({
-    muscle,
-  });
+  const query = muscle ? { muscle } : {};
+  const exercises = await ExerciseRepository.getExercises({});
 
   res.json(exercises);
 });
