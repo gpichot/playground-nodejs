@@ -1,4 +1,4 @@
-import { ExerciseModel } from "../mongo.js";
+import { ExerciseModel } from "../models/ExerciseModel.js";
 
 class ExerciseRepository {
   async getExercises({ muscle }) {
