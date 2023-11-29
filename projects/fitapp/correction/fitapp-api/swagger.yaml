@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Fitomapp
+  description: Fitomapp
+  version: 1.0.11
+servers:
+  - url: http://localhost:3000
+paths:
+  /exercises:
+    get:
+      summary: Get Exercises
+      description: Retrieve a list of exercises, optionally filtered by muscle group.
+      parameters:
+        - name: muscle
+          in: query
+          description: Filter exercises by muscle group.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of exercises.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Exercise"
+    post:
+      summary: Create Exercise
+      description: Create a new exercise.
+      requestBody:
+        description: Exercise object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exercise"
+      responses:
+        "201":
+          description: The newly created exercise.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exercise"
+
+  /exercises/{id}:
+    get:
+      summary: Get Exercise by ID
+      description: Retrieve an exercise by its ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the exercise to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The requested exercise.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exercise"
+        "404":
+          description: Exercise not found.
+    put:
+      summary: Update Exercise
+      description: Update an existing exercise by its ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the exercise to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated exercise object.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exercise"
+      responses:
+        "200":
+          description: The updated exercise.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exercise"
+        "404":
+          description: Exercise not found.
+    delete:
+      summary: Delete Exercise
+      description: Delete an exercise by its ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the exercise to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Exercise deleted successfully.
+        "404":
+          description: Exercise not found
+
+components:
+  schemas:
+    Exercise:
+      type: object
+      properties:
+        nom:
+          type: string
+          description: The name of the exercise.
+        muscles:
+          type: array
+          items:
+            type: string
+          description: The muscle groups targeted by the exercise.
+        nombreRepetitions:
+          type: integer
+          description: The number of repetitions for the exercise.
+        difficulte:
+          type: integer
+          description: The difficulty level of the exercise.
+        description:
+          type: string
+          description: Description of the exercise.
+      required:
+        - nom
+        - muscles
+        - nombreRepetitions
+        - difficulte
+        - description

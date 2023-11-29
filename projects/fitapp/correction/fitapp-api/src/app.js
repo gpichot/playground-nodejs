@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import { parse } from "yaml";
+import fs from "node:fs/promises";
 
 import exercisesRouter from "./routers/exercisesRouter.js";
 import usersRouter from "./routers/usersRouter.js";
@@ -12,6 +15,9 @@ app.use(cors({}));
 app.use(async function logRequest(req, res, next) {
   next();
 });
+
+const swaggerDocument = parse(await fs.readFile("./swagger.yaml", "utf8"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/ping", (req, res) => {
   res.send("pong");
